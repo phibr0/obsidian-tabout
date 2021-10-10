@@ -1,74 +1,58 @@
 import * as CodeMirror from 'codemirror';
 import { Plugin } from 'obsidian';
-import { MathSettingsTab } from './settings';
+import { TaboutSettingsTab } from './ui/settings';
+import { TaboutSettings, DEFAULT_SETTINGS } from './types';
 
-interface MathPluginSettings {
-}
-
-const DEFAULT_SETTINGS: MathPluginSettings = {
-}
-
-export default class MathPlugin extends Plugin {
-	settings: MathPluginSettings;
+export default class TaboutPlugin extends Plugin {
+	settings: TaboutSettings;
 	handlingMath: boolean;
-
-	handleCursorChange = (cm: CodeMirror.Editor) => {
-		if (cm.getTokenTypeAt(cm.getCursor())?.match(/math/)) {
-			if (!this.handlingMath) {
-				cm.on('beforeChange', this.handleMathChange);
-				this.handlingMath = true;
-			}
-		} else {
-			cm.off("beforeChange", this.handleMathChange);
-			this.handlingMath = false;
-		}
-	}
-
-	handleMathChange = (cm: CodeMirror.Editor, changeObj: CodeMirror.EditorChange) => {
-		if (changeObj.text.first() === "**" || changeObj.text.first() === "*") {
-			//@ts-ignore
-			changeObj.cancel();
-			const pos = cm.getCursor();
-			cm.replaceRange("\\times", pos);
-			cm.setCursor({
-				ch: pos.ch + 7,
-				line: pos.line,
-			});
-		}
-		if (changeObj.text.first() === "	") {
-			console.log("success")
-			//@ts-ignore
-			changeObj.cancel();
-			const pos: CodeMirror.Position = cm.getCursor();
-			const afterCursor: string = cm.getLine(pos.line).substring(pos.ch);
-			const rules: number[] = [
-				afterCursor.indexOf("{"),
-				afterCursor.indexOf("(")
-			];
-			rules.forEach(element => element === -1 && rules.remove(element));
-			const nextChar: number = Math.min(...rules);
-			console.log({pos, afterCursor, rules, nextChar});
-			if(nextChar != -1) {
-				cm.setCursor(pos.line, pos.ch + nextChar + 1);
-			}
-		}
-	}
 
 	async onload() {
 		await this.loadSettings();
 
-		this.addSettingTab(new MathSettingsTab(this.app, this));
+		this.addSettingTab(new TaboutSettingsTab(this.app, this));
 
 		this.registerCodeMirror((cm: CodeMirror.Editor) => {
-			cm.on("cursorActivity", this.handleCursorChange);
-			if (this.handlingMath) {
-				cm.off("beforeChange", this.handleMathChange);
-			}
+			cm.on("beforeChange", this.handleTabs);
 		});
 	}
 
+	handleTabs = (cm: CodeMirror.Editor, changeObj: CodeMirror.EditorChange) => {
+		// If tab is pressed
+		if (changeObj.text.first() === "	") {
+			for (let rule of this.settings.rules) {
+				// If Cursor is in correct environment
+				if (cm.getTokenTypeAt(cm.getCursor())?.match(RegExp(rule.tokenMatcher))) {
+					// Get Cursor Position
+					const pos = cm.getCursor();
+					// Get content of Line after Cursor
+					const afterCursor = cm.getLine(pos.line).substring(pos.ch);
+					// Determine the nearest character
+					const nextChar = Math.min(...this.getIndices(rule.lookups, afterCursor, rule.jumpAfter));
+					// If there is a nearest one jump right after it
+					if (nextChar != Infinity) {
+						// @ts-ignore Don't insert the Tab
+						changeObj.cancel();
+						cm.setCursor(pos.line, pos.ch + nextChar);
+					}
+				}
+			}
+		}
+	};
+
+	getIndices(rules: string[], afterCursor: string, jumpAfter: boolean) {
+		let n: number[] = [];
+		rules.forEach(r => {
+			let idx = afterCursor.indexOf(r);
+			if (idx != -1) {
+				n.push(jumpAfter ? idx + r.length : idx);
+			}
+		});
+		return n;
+	}
+
 	onunload() {
-		this.app.workspace.iterateCodeMirrors(cm => cm.off("cursorActivity", this.handleCursorChange));
+		this.app.workspace.iterateCodeMirrors(cm => cm.off("beforeChange", this.handleTabs));
 	}
 
 	async loadSettings() {

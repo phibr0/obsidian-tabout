@@ -1,0 +1,24 @@
+.tabout-kbd {
+    padding: 3px 6px;
+}
+
+.tabout-add-rule-container {
+    width: 100%;
+    display: flex;
+}
+
+.tabout-add-rule {
+    margin: auto !important;
+    min-width: 15%;
+    margin-top: 2rem;
+}
+
+.setting-item.tabout-jump-char {
+    border: none;
+    margin: 18px 0 18px 0;
+    padding: 0 !important;
+}
+.setting-item.tabout-match-text {
+    border-bottom: 1px solid var(--background-modifier-border);
+}
+

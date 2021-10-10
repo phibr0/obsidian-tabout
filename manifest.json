@@ -1,10 +1,10 @@
 {
-	"id": "better-math-plugin",
-	"name": "Better Math",
+	"id": "tabout",
+	"name": "Tabout",
 	"version": "0.0.1",
 	"minAppVersion": "0.12.11",
-	"description": "This is a sample plugin for Obsidian. This plugin demonstrates some of the capabilities of the Obsidian API.",
+	"description": "Easily \"tab out\" of Links or other Markdown Formatting Characters.",
 	"author": "phibr0",
 	"authorUrl": "https://phibr0.de",
-	"isDesktopOnly": false
+	"isDesktopOnly": true
 }
