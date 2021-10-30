@@ -2,10 +2,17 @@
 
 This Plugin lets you press <kbd>Tab</kbd> to place the Cursor next to the markup you are in.
 
+## How to add custom Rules
+
+1. Place your Cursor in the Environment you want to add the Rule for and run the Command “Add Rule for this Environment”.
+2. Enter the characters you want to jump to
+3. Click “Add this Rule”
+4. Done 🎉
+
 ## How to install
 
 1. Go to **Community Plugins** in your [Obsidian](https://www.obsidian.md) Settings and **disable** Safe Mode
-2. Click on **Browse** and search for „Tabout“
+2. Click on **Browse** and search for “Tabout“
 3. Click install
 4. Toggle the Plugin on in the **Community Plugins** Tab
 

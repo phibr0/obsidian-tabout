@@ -1,7 +1,8 @@
 import * as CodeMirror from 'codemirror';
-import { Plugin } from 'obsidian';
+import { Editor, MarkdownView, Plugin } from 'obsidian';
 import { TaboutSettingsTab } from './ui/settings';
 import { TaboutSettings, DEFAULT_SETTINGS } from './types';
+import RuleCreateModal from './ui/ruleCreateModal';
 
 export default class TaboutPlugin extends Plugin {
 	settings: TaboutSettings;
@@ -12,13 +13,21 @@ export default class TaboutPlugin extends Plugin {
 
 		this.addSettingTab(new TaboutSettingsTab(this.app, this));
 
+		this.addCommand({
+			id: "tabout-add-rule-here",
+			name: "Add Rule for this Environment",
+			editorCallback: (editor: Editor) => {
+				//@ts-expect-error
+				new RuleCreateModal(this, editor.cm.getTokenTypeAt(editor.getCursor()) ?? "").open();
+			}
+		});
+
 		this.registerCodeMirror((cm: CodeMirror.Editor) => {
 			cm.on("beforeChange", this.handleTabs);
 		});
 	}
 
 	handleTabs = (cm: CodeMirror.Editor, changeObj: CodeMirror.EditorChange) => {
-		// If tab is pressed
 		if (changeObj.text.first() === "	") {
 			for (let rule of this.settings.rules) {
 				// If Cursor is in correct environment
@@ -49,6 +58,23 @@ export default class TaboutPlugin extends Plugin {
 			}
 		});
 		return n;
+	}
+
+	//This is needed to also work when Obsidian is set to using Spaces instead of Tabs. (doesnt work yet haha)
+	getTabString(ch: number): string {
+		//@ts-expect-error
+		if (this.app.vault.getConfig("useTab")) {
+			return "";
+		} else {
+			let tab = "";
+			//@ts-expect-error
+			const tabSize: number = this.app.vault.getConfig("tabSize");
+			let remaining = ch-tabSize;
+			for(let i = 0; i < remaining; i++) {
+				tab += " ";
+			}
+			return tab;
+		}
 	}
 
 	onunload() {

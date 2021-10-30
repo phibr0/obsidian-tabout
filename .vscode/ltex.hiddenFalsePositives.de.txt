@@ -1,0 +1,1 @@
+{"rule":"UNPAIRED_BRACKETS","sentence":"^\\QPlace your Cursor in the Environment you want to add the Rule for and run the Command “Add Rule for this Environment\".\\E$"}

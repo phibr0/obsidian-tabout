@@ -6,12 +6,12 @@ export default class RuleCreateModal extends Modal {
     plugin: TaboutPlugin;
     rule: Rule;
 
-    constructor(plugin: TaboutPlugin) {
+    constructor(plugin: TaboutPlugin, matcher = "") {
         super(plugin.app);
         this.plugin = plugin;
         this.rule = {
             lookups: [""],
-            tokenMatcher: "",
+            tokenMatcher: matcher,
             jumpAfter: true,
         };
     }
