@@ -1,7 +1,7 @@
 {
 	"id": "tabout",
 	"name": "Tabout",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"minAppVersion": "0.12.11",
 	"description": "Easily \"tab out\" of Links or other Markdown Formatting Characters.",
 	"author": "phibr0",

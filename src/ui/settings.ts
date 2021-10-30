@@ -62,7 +62,7 @@ export class TaboutSettingsTab extends PluginSettingTab {
 	generateDescription(rule: Rule): DocumentFragment {
 		let descEl = document.createDocumentFragment();
 		descEl.append("This Rule is only active in ")
-		descEl.append(createEl("code", { text: rule.tokenMatcher }));
+		descEl.append(createEl("code", { text: rule.tokenMatcher ? rule.tokenMatcher : "all" }));
 		descEl.append(" Environments and with the press of ");
 		descEl.append(createEl("kbd", { text: "Tab", cls: "tabout-kbd" }));
 		descEl.append(" you will jump to one of these characters: ");

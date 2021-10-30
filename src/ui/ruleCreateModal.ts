@@ -79,7 +79,7 @@ export default class RuleCreateModal extends Modal {
 
         const saveBtn = createEl("button", { text: "Add this Rule", cls: "tabout-add-rule" });
         saveBtn.onClickEvent(() => {
-            if (this.rule.tokenMatcher && this.rule.lookups.length >= 1 && this.rule.lookups.first()) {
+            if (this.rule.lookups.length >= 1 && this.rule.lookups.first()) {
                 this.save();
                 this.close();
             } else {

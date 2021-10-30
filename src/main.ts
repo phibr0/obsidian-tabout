@@ -31,7 +31,7 @@ export default class TaboutPlugin extends Plugin {
 		if (changeObj.text.first() === "	") {
 			for (let rule of this.settings.rules) {
 				// If Cursor is in correct environment
-				if (cm.getTokenTypeAt(cm.getCursor())?.match(RegExp(rule.tokenMatcher))) {
+				if (!rule.tokenMatcher || cm.getTokenTypeAt(cm.getCursor())?.contains(rule.tokenMatcher)) {
 					// Get Cursor Position
 					const pos = cm.getCursor();
 					// Get content of Line after Cursor
