@@ -6,5 +6,6 @@
 	"description": "Easily \"tab out\" of Links or other Markdown Formatting Characters.",
 	"author": "phibr0",
 	"authorUrl": "https://phibr0.de",
-	"isDesktopOnly": true
+	"isDesktopOnly": true,
+	"donation": "https://ko-fi.com/phibr0"
 }
