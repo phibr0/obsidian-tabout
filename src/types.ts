@@ -11,8 +11,13 @@ export interface Rule {
 export const DEFAULT_SETTINGS: TaboutSettings = {
     rules: [
         {
+            tokenMatcher: "Document",
+            lookups: ['"', "'", ")", "}"],
+            jumpAfter: true,  
+        },
+        {
             tokenMatcher: "hmd-internal-link",
-            lookups: ["]]"],
+            lookups: ["]"],
             jumpAfter: true,
         },
         {
@@ -26,14 +31,14 @@ export const DEFAULT_SETTINGS: TaboutSettings = {
             jumpAfter: true,
         },
         {
+            tokenMatcher: "math",
+            lookups: ["$"],
+            jumpAfter: true,
+        },
+        {
             tokenMatcher: "code",
             lookups: ["`"],
             jumpAfter: true,
         },
-        {
-            tokenMatcher: "math",
-            lookups: ["{", "("],
-            jumpAfter: true,
-        }
     ],
 }
