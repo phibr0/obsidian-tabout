@@ -16,8 +16,23 @@ export const DEFAULT_SETTINGS: TaboutSettings = {
             jumpAfter: true,  
         },
         {
+            tokenMatcher: "formatting_formatting-quote_formatting-quote-1_hmd-callout",
+            lookups: ['"', "'", ")", "}"],
+            jumpAfter: true,  
+        },
+        {
+            tokenMatcher: "quote",
+            lookups: ['"', "'", ")", "}"],
+            jumpAfter: true,  
+        },
+        {
             tokenMatcher: "hmd-internal-link",
             lookups: ["]"],
+            jumpAfter: true,
+        },
+        {
+            tokenMatcher: "formatting-link_formatting-link-start",
+            lookups: ["]]"],
             jumpAfter: true,
         },
         {
@@ -27,7 +42,7 @@ export const DEFAULT_SETTINGS: TaboutSettings = {
         },
         {
             tokenMatcher: "em",
-            lookups: ["*"],
+            lookups: ["*", "_"],
             jumpAfter: true,
         },
         {
@@ -40,5 +55,30 @@ export const DEFAULT_SETTINGS: TaboutSettings = {
             lookups: ["`"],
             jumpAfter: true,
         },
+        {
+            tokenMatcher: "header_header",
+            lookups: ['"', "'", ")", "}", "]"],
+            jumpAfter: true,
+        },
+        {
+            tokenMatcher: "list-1",
+            lookups: ['"', "'", ")", "}", "]"],
+            jumpAfter: true,
+        },
+        {
+            tokenMatcher: "list-2",
+            lookups: ['"', "'", ")", "}", "]"],
+            jumpAfter: true,
+        },
+        {
+            tokenMatcher: "list-3",
+            lookups: ['"', "'", ")", "}", "]"],
+            jumpAfter: true,
+        },
+        {
+            tokenMatcher: "hmd-codeblock",
+            lookups: [")", "}"],
+            jumpAfter: true,
+        }        
     ],
 }
